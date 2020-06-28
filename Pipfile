@@ -9,7 +9,7 @@ pylint-django = "*"
 
 [packages]
 django = "~=2.2"
-dockerjudge = "~=1.2.2"
+dockerjudge = "~=1.2.3"
 readme-renderer = {extras = ["md"],version = "*"}
 ruamel-yaml = "*"
 

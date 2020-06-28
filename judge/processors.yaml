@@ -85,3 +85,7 @@ Ruby:
   _language: ruby
   version:
     - latest
+Swift:
+  _language: swift
+  version:
+    - latest
