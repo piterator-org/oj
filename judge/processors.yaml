@@ -4,8 +4,8 @@ Bash:
     - latest
 Clang:
   language:
-    C: c
-    C++: cpp
+    c: C
+    cpp: C++
   version:
     - "10"
     - "11"
@@ -21,9 +21,9 @@ Clang:
     - -O
 GCC:
   language:
-    C: c
-    C++: cpp
-    Go: go
+    c: C
+    cpp: C++
+    go: Go
   version:
     - "4.8"
     - "4.9"
@@ -47,8 +47,8 @@ Go:
     - latest
 Mono:
   language:
-    C#: csharp
-    Visual Basic: vb
+    csharp: C#
+    vb: Visual Basic
   version:
     - latest
 Node:

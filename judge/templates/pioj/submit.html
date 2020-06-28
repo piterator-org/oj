@@ -61,7 +61,7 @@
                     <select name="language" class="custom-select" required v-if="languages" v-model="language">
                       <option value="" disabled>{% trans 'Language' %}</option>
                       {% verbatim %}
-                        <option :value="value" v-for="(value, name) in languages">{{ name }}</option>
+                        <option :value="name" v-for="(value, name) in languages">{{ value }}</option>
                       {% endverbatim %}
                     </select>
                     <div class="invalid-feedback">{% trans 'Please select a language.' %}</div>
@@ -93,9 +93,10 @@
 
 {% block script %}
   <script src="https://cdn.jsdelivr.net/npm/monaco-editor/min/vs/loader.js" crossorigin="anonymous"></script>
+  {{ last_submission.processor|json_script:"processor" }}
   {{ processors|json_script:"processors" }}
   <script>
-    require.config({ paths: { 'vs': '{% static "node_modules/monaco-editor/min/vs" %}' }});
+    require.config({ paths: { 'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor/min/vs' }});
     require.config({
       'vs/nls' : {
         availableLanguages: {
@@ -107,13 +108,20 @@
       window.editor = monaco.editor.create(document.getElementById('container'), {
         automaticLayout: true,
         scrollBeyondLastLine: false,
-        theme: 'vs-dark'
+        theme: 'vs-dark',
+        value: '{{ last_submission.source|escapejs }}'
       });
       $(document).ready(function() {
         window.editor.onDidChangeModelContent(function() {
           $('[name=source]').val(editor.getValue());
         });
       });
+
+      const last_processor = JSON.parse('{{ last_submission.processor|escapejs }}');
+      form.processor = last_processor.processor;
+      form.language = last_processor.language;
+      form.version = last_processor.version;
+      form.option = last_processor.options;
     });
   </script>
   <script>
@@ -131,12 +139,18 @@
       },
       watch: {
         processor(processor) {
-          form.language = form.processors[processor]._language || "";
           form.languages = form.processors[processor].language;
-          form.version = "";
           form.versions = form.processors[processor].version;
-          form.option = "";
           form.options = form.processors[processor].options;
+        },
+        languages(languages) {
+          form.language = languages && form.language in languages ? form.language : form.processors[form.processor]._language || ""
+        },
+        versions(versions) {
+          form.version = versions.includes(form.version) ? form.version : "";
+        },
+        options(options) {
+          form.option = options && options.includes(form.option) ? form.option : "";
         },
         language(language) {
           editor.setModel(monaco.editor.createModel(editor.getValue(), form.language));
