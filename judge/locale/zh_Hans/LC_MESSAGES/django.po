@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-28 14:36+0800\n"
+"POT-Creation-Date: 2020-06-28 15:02+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -130,19 +130,31 @@ msgstr "测试点"
 msgid "Problems"
 msgstr "问题"
 
-#: judge/templates/pioj/base.html:72
+#: judge/templates/pioj/base.html:63
+msgid "keyword or #problem"
+msgstr "关键词或“#题号”"
+
+#: judge/templates/pioj/base.html:63 judge/templates/pioj/index.html:24
+msgid "Keyword"
+msgstr "关键词"
+
+#: judge/templates/pioj/base.html:69 judge/templates/pioj/index.html:26
+msgid "Search"
+msgstr "搜索"
+
+#: judge/templates/pioj/base.html:80
 msgid "Account"
 msgstr ""
 
-#: judge/templates/pioj/base.html:78
+#: judge/templates/pioj/base.html:86
 msgid "Sign out"
 msgstr "注销"
 
-#: judge/templates/pioj/base.html:79
+#: judge/templates/pioj/base.html:87
 msgid "Switch"
 msgstr "切换"
 
-#: judge/templates/pioj/base.html:81
+#: judge/templates/pioj/base.html:89
 msgid "Sign in"
 msgstr "登录"
 

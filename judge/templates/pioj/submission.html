@@ -149,7 +149,9 @@
                 })
               })
               app.test_points = response.data.test_points;
-              for (var i in response.data.test_points) {
+              if (app.score < 0) {
+                setTimeout(fetch, 100);
+              } else for (var i in response.data.test_points) {
                 if (!response.data.test_points[i].status) {
                   setTimeout(fetch, 100);
                   break;

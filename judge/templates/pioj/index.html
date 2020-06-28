@@ -1,6 +1,6 @@
 {% extends 'pioj/base.html' %}
 
-{% load static %}
+{% load static i18n %}
 
 {% block title %}Piterator Online Judge{% endblock %}
 
@@ -18,7 +18,15 @@
   <div class="container">
     <div class="row">
       <div class="col">
-        <h2 class="mt-5 text-center">Piterator Online Judge</h2>
+        <h2 class="mt-5 mb-5 text-center">Piterator Online Judge</h2>
+        <form class="form-group">
+          <div class="input-group input-group-lg mb-3">
+            <input type="search" name="kw" value="{{ request.GET.kw }}" autofocus class="form-control" placeholder="{% trans 'Keyword' %}" aria-label="{% trans 'Keyword' %}" aria-describedby="search-botton">
+            <div class="input-group-append">
+              <button class="btn btn-outline-primary" type="submit" id="search-botton">{% trans 'Search' %}</button>
+            </div>
+          </div>
+        </form>
         <div class="container">
           <ol class="list-group list-group-flush">
             {% for problem in problems %}

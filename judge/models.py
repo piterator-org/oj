@@ -83,7 +83,7 @@ class Submission(models.Model):
                     test_point.status = 'CE'
                     test_point.save()
                 self.score = 0
-                self.save()
+            self.save()
 
         def judging_callback(status_pk, status, output, duration):
             testpoint = self.testpoint_set.all()[status_pk]
