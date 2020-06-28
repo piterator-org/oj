@@ -60,7 +60,7 @@
         <ul class="navbar-nav">
           <li class="nav-item">
             <form class="form-inline input-group" id="nav-search" action="{% url 'problems' %}">
-              <input class="form-control" type="search" name="kw" placeholder="{% trans 'keyword or #problem' %}" aria-label="{% trans 'Keyword' %}" v-model="kw">
+              <input class="form-control" type="search" name="kw" autocomplete="off" placeholder="{% trans 'keyword or #problem' %}" aria-label="{% trans 'Keyword' %}" v-model="kw">
               <div class="input-group-append">
                 <button class="btn btn-outline-secondary" type="submit">
                   {% verbatim %}

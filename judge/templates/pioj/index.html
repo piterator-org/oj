@@ -21,7 +21,7 @@
         <h2 class="mt-5 mb-5 text-center">Piterator Online Judge</h2>
         <form class="form-group">
           <div class="input-group input-group-lg mb-3">
-            <input type="search" name="kw" value="{{ request.GET.kw }}" autofocus class="form-control" placeholder="{% trans 'Keyword' %}" aria-label="{% trans 'Keyword' %}" aria-describedby="search-botton">
+            <input type="search" name="kw" value="{{ request.GET.kw }}" autocomplete="off" autofocus class="form-control" placeholder="{% trans 'Keyword' %}" aria-label="{% trans 'Keyword' %}" aria-describedby="search-botton">
             <div class="input-group-append">
               <button class="btn btn-outline-primary" type="submit" id="search-botton">{% trans 'Search' %}</button>
             </div>
