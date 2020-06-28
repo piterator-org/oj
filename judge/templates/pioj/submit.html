@@ -148,18 +148,11 @@
       watch: {
         processor(processor) {
           form.languages = form.processors[processor].language || null;
+          form.language = form.languages && form.language in form.languages ? form.language : form.processors[form.processor]._language || "";
           form.versions = form.processors[processor].version || null;
+          form.version = form.versions && form.versions.includes(form.version) ? form.version : "";
           form.options = form.processors[processor].options || null;
-          
-        },
-        languages(languages) {
-          form.language = languages && form.language in languages ? form.language : form.processors[form.processor]._language || "";
-        },
-        versions(versions) {
-          form.version = versions && versions.includes(form.version) ? form.version : "";
-        },
-        options(options) {
-          form.option = options && options.includes(form.option) ? form.option : "";
+          form.option = form.options && form.options.includes(form.option) ? form.option : "";
         },
         language(language) {
           editor.setModel(monaco.editor.createModel(editor.getValue(), form.language));
