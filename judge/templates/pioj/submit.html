@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'pioj/base.html' %}
 
 {% load static i18n readme_renderer verbose_name %}
 
@@ -36,7 +36,7 @@
         </h3>
         <section>
           <div class="container">
-            <form class="needs-validation" method="POST" novalidate>
+            <form class="needs-validation" id="submit" method="POST" novalidate>
               <div class="form-row" style="justify-content: space-between;">
                 <div class="form-row">
                   <div class="form-group col-auto">
@@ -92,9 +92,7 @@
 {% endblock %}
 
 {% block script %}
-  <script src="{% static 'node_modules/vue/dist/vue.js' %}" crossorigin="anonymous"></script>
-  <script src="{% static 'node_modules/axios/dist/axios.min.js' %}" crossorigin="anonymous"></script>
-  <script src="{% static 'node_modules/monaco-editor/min/vs/loader.js' %}" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/monaco-editor/min/vs/loader.js" crossorigin="anonymous"></script>
   {{ processors|json_script:"processors" }}
   <script>
     require.config({ paths: { 'vs': '{% static "node_modules/monaco-editor/min/vs" %}' }});
@@ -120,7 +118,7 @@
   </script>
   <script>
     const form = new Vue({
-      el: "form",
+      el: 'form#submit',
       data: {
         language: "",
         languages: undefined,

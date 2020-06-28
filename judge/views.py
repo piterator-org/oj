@@ -20,8 +20,10 @@ def load_yaml(filename):
 
 
 def index(request):
-    return render(request, 'judge/index.html',
-                  {'problems': Problem.objects.all()})
+    if 'kw' in request.GET and request.GET['kw'].startswith('#'):
+        return HttpResponseRedirect(reverse('problem', args=(request.GET['kw'].lstrip('#'),)))
+    return render(request, 'pioj/index.html',
+                  {'problems': Problem.objects.filter(title__icontains=request.GET['kw']) if 'kw' in request.GET else Problem.objects.all()})
 
 
 def robots_txt(request):
@@ -30,7 +32,7 @@ def robots_txt(request):
 
 
 def problem_detail(request, problem_id):
-    return render(request, 'judge/problem.html',
+    return render(request, 'pioj/problem.html',
                   {'problem': get_object_or_404(Problem, pk=problem_id)})
 
 
@@ -58,7 +60,7 @@ def submit(request, problem_id):
                                             args=(submission.pk,)))
     return render(
         request,
-        'judge/submit.html',
+        'pioj/submit.html',
         {
             'problem': problem,
             'processors': load_yaml('processors.yaml')
@@ -68,7 +70,7 @@ def submit(request, problem_id):
 
 def submission_detail(request, submission_id):
     submission = get_object_or_404(Submission, pk=submission_id)
-    return render(request, 'judge/submission.html', {'submission': submission})
+    return render(request, 'pioj/submission.html', {'submission': submission})
 
 
 def submission_json(request, submission_id):

@@ -4,7 +4,7 @@ from . import views
 
 # app_name = 'oj'
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('', views.index, name='problems'),
     path('robots.txt', views.robots_txt, name='robots.txt'),
     path('problem/<int:problem_id>/', views.problem_detail, name='problem'),
     path('problem/<int:problem_id>/submit/', views.submit, name='submit'),
