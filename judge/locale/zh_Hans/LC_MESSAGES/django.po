@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-28 12:08+0800\n"
+"POT-Creation-Date: 2020-06-28 14:36+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -126,85 +126,66 @@ msgstr "测试点"
 msgid "test points"
 msgstr "测试点"
 
-#: judge/templates/base.html:70
-msgid "Home"
-msgstr ""
+#: judge/templates/pioj/base.html:57
+msgid "Problems"
+msgstr "问题"
 
-#: judge/templates/base.html:73
-msgid "Blog"
-msgstr ""
-
-#: judge/templates/base.html:76
-msgid "Online Judge"
-msgstr ""
-
-#: judge/templates/base.html:82
-msgid "Demos"
-msgstr ""
-
-#: judge/templates/base.html:97
-msgid "Links"
-msgstr ""
-
-#: judge/templates/base.html:120
+#: judge/templates/pioj/base.html:72
 msgid "Account"
 msgstr ""
 
-#: judge/templates/base.html:126
+#: judge/templates/pioj/base.html:78
 msgid "Sign out"
 msgstr "注销"
 
-#: judge/templates/base.html:127
+#: judge/templates/pioj/base.html:79
 msgid "Switch"
 msgstr "切换"
 
-#: judge/templates/base.html:129
+#: judge/templates/pioj/base.html:81
 msgid "Sign in"
 msgstr "登录"
 
-#: judge/templates/judge/problem.html:35 judge/templates/judge/submit.html:80
+#: judge/templates/pioj/problem.html:33 judge/templates/pioj/submit.html:80
 msgid "Submit"
 msgstr "提交"
 
-#: judge/templates/judge/problem.html:60 judge/templates/judge/problem.html:69
+#: judge/templates/pioj/problem.html:58 judge/templates/pioj/problem.html:67
 msgid "Copy to clipboard"
 msgstr "复制到剪贴板"
 
-#: judge/templates/judge/submission.html:51
-#: judge/templates/judge/submit.html:53
+#: judge/templates/pioj/submission.html:51 judge/templates/pioj/submit.html:53
 msgid "Version"
 msgstr "版本"
 
-#: judge/templates/judge/submission.html:56
-#: judge/templates/judge/submit.html:62
+#: judge/templates/pioj/submission.html:55 judge/templates/pioj/submit.html:62
 msgid "Language"
 msgstr "语言"
 
-#: judge/templates/judge/submission.html:60
-#: judge/templates/judge/submit.html:71
+#: judge/templates/pioj/submission.html:59 judge/templates/pioj/submit.html:71
 msgid "Options"
 msgstr "选项"
 
-#: judge/templates/judge/submit.html:35
+#: judge/templates/pioj/submit.html:35
 msgid "Details"
 msgstr "详情"
 
-#: judge/templates/judge/submit.html:44
+#: judge/templates/pioj/submit.html:44
 msgid "Processor"
 msgstr "处理程序"
 
-#: judge/templates/judge/submit.html:49
+#: judge/templates/pioj/submit.html:49
 msgid "Please select a processor."
 msgstr "请选择一个处理程序。"
 
-#: judge/templates/judge/submit.html:58
+#: judge/templates/pioj/submit.html:58
 msgid "Please select a version."
 msgstr "请选择一个版本。"
 
-#: judge/templates/judge/submit.html:67
+#: judge/templates/pioj/submit.html:67
 msgid "Please select a language."
 msgstr "请选择一门语言。"
 
-#: judge/templates/judge/submit.html:76
+#: judge/templates/pioj/submit.html:76
 msgid "Please select an option."
 msgstr "请选择一个选项。"
