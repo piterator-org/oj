@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+
+{% load static i18n readme_renderer verbose_name %}
+
+{% block title %}{% model_name problem %} {{ problem.pk }}: {{ problem.title }} - PiOJ{% endblock %}
+
+{% block head %}
+  <!-- https://developers.google.com/search/reference/robots_meta_tag
+       https://developers.google.cn/search/reference/robots_meta_tag
+       https://ziyuan.baidu.com/college/articleinfo?id=1516 -->
+  <meta name="robots" content="noindex" />
+
+  <style>
+    body > div.container {
+      padding-top: 56px;
+    }
+
+    section {
+      padding: 1em 0;
+    }
+
+    #container, #container > div, #container > div > .overflow-guard {
+      border-radius: 0.25rem;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h3 class="mt-5 text-center d-flex">
+          {% model_name problem %} {{ problem.pk }}
+          <span class="ml-auto">{{ problem.title }}</span>
+          <a href="{% url 'problem' problem.pk %}" class="btn btn-primary ml-auto">{% trans 'Details' %}</a>
+        </h3>
+        <section>
+          <div class="container">
+            <form class="needs-validation" method="POST" novalidate>
+              <div class="form-row" style="justify-content: space-between;">
+                <div class="form-row">
+                  <div class="form-group col-auto">
+                    <select name="processor" class="custom-select" required v-model="processor">
+                      <option value="" disabled>{% trans 'Processor' %}</option>
+                      {% verbatim %}
+                        <option :value="processor" v-for="(_, processor) in processors">{{ processor }}</option>
+                      {% endverbatim %}
+                    </select>
+                    <div class="invalid-feedback">{% trans 'Please select a processor.' %}</div>
+                  </div>
+                  <div class="form-group col-auto">
+                    <select name="version" class="custom-select" required v-if="versions" v-model="version">
+                      <option value="" disabled>{% trans 'Version' %}</option>
+                      {% verbatim %}
+                        <option :value="v" v-for="v in versions">{{ v }}</option>
+                      {% endverbatim %}
+                    </select>
+                    <div class="invalid-feedback">{% trans 'Please select a version.' %}</div>
+                  </div>
+                  <div class="form-group col-auto">
+                    <select name="language" class="custom-select" required v-if="languages" v-model="language">
+                      <option value="" disabled>{% trans 'Language' %}</option>
+                      {% verbatim %}
+                        <option :value="value" v-for="(value, name) in languages">{{ name }}</option>
+                      {% endverbatim %}
+                    </select>
+                    <div class="invalid-feedback">{% trans 'Please select a language.' %}</div>
+                  </div>
+                  <div class="form-group col-auto">
+                    <select name="options" class="custom-select" required v-if="options" v-model="option">
+                      <option value="" disabled>{% trans 'Options' %}</option>
+                      {% verbatim %}
+                        <option :value="option" v-for="option in options">{{ option }}</option>
+                      {% endverbatim %}
+                    </select>
+                    <div class="invalid-feedback">{% trans 'Please select an option.' %}</div>
+                  </div>
+                </div>
+                <div class="form-group col-auto">
+                  <button type="submit" class="btn btn-primary">{% trans 'Submit' %}</button>
+                </div>
+              </div>
+              <input type="hidden" name="source" value="{{ request.POST.source }}" />
+              {% csrf_token %}
+            </form>
+            <div id="container" style="width: 100%; height: 32em;"></div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block script %}
+  <script src="{% static 'node_modules/vue/dist/vue.js' %}" crossorigin="anonymous"></script>
+  <script src="{% static 'node_modules/axios/dist/axios.min.js' %}" crossorigin="anonymous"></script>
+  <script src="{% static 'node_modules/monaco-editor/min/vs/loader.js' %}" crossorigin="anonymous"></script>
+  {{ processors|json_script:"processors" }}
+  <script>
+    require.config({ paths: { 'vs': '{% static "node_modules/monaco-editor/min/vs" %}' }});
+    require.config({
+      'vs/nls' : {
+        availableLanguages: {
+          '*': window.navigator.language.toLowerCase()
+        }
+      }
+    });
+    require(['vs/editor/editor.main'], function() {
+      window.editor = monaco.editor.create(document.getElementById('container'), {
+        automaticLayout: true,
+        scrollBeyondLastLine: false,
+        theme: 'vs-dark'
+      });
+      $(document).ready(function() {
+        window.editor.onDidChangeModelContent(function() {
+          $('[name=source]').val(editor.getValue());
+        });
+      });
+    });
+  </script>
+  <script>
+    const form = new Vue({
+      el: "form",
+      data: {
+        language: "",
+        languages: undefined,
+        option: "",
+        options: undefined,
+        processor: "",
+        processors: JSON.parse(document.getElementById('processors').innerText),
+        version: "",
+        versions: undefined
+      },
+      watch: {
+        processor(processor) {
+          form.language = form.processors[processor]._language || "";
+          form.languages = form.processors[processor].language;
+          form.version = "";
+          form.versions = form.processors[processor].version;
+          form.option = "";
+          form.options = form.processors[processor].options;
+        },
+        language(language) {
+          editor.setModel(monaco.editor.createModel(editor.getValue(), form.language));
+        }
+      }
+    })
+  </script>
+{% endblock %}

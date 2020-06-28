@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% load static i18n readme_renderer verbose_name %}
+
+{% block title %}{% model_name problem %} {{ problem.pk }}: {{ problem.title }} - PiOJ{% endblock %}
+
+{% block head %}
+  <script defer src="{% static 'node_modules/clipboard/dist/clipboard.min.js' %}" onload="new ClipboardJS('.btn');" crossorigin="anonymous"></script>
+
+  <style>
+    body > div.container {
+      padding-top: 56px;
+    }
+
+    section {
+      padding: 1em 0;
+    }
+  </style>
+
+  <link rel="prefetch" href="{% static 'node_modules/monaco-editor/min/vs/loader.js' %}" crossorigin="anonymous">
+  <link rel="prefetch" href="{% static 'node_modules/monaco-editor/min/vs/editor/editor.main.js' %}" crossorigin="anonymous">
+  <link rel="prefetch" href="{% static 'node_modules/monaco-editor/min/vs/editor/editor.main.css' %}" crossorigin="anonymous">
+  <link rel="prefetch" href="{% static 'node_modules/monaco-editor/min/vs/base/worker/workerMain.js' %}" crossorigin="anonymous">
+  <link rel="prefetch" href="{% static 'node_modules/vue/dist/vue.js' %}" crossorigin="anonymous">
+  <link rel="prefetch" href="{% static 'node_modules/axios/dist/axios.min.js' %}" crossorigin="anonymous">
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h3 class="mt-5 text-center d-flex">
+          {% model_name problem %} {{ problem.pk }}
+          <span class="ml-auto">{{ problem.title }}</span>
+          <a href="{% url 'submit' problem.pk %}" class="btn btn-primary ml-auto">{% trans 'Submit' %}</a>
+        </h3>
+        <div class="container">
+          <section>
+            <h4>{% field_name problem 'description' %}</h4>
+            {{ problem.description|markdown|safe }}
+          </section>
+          <div class="row">
+            <section class="col-xl">
+              <h4>{% field_name problem 'input' %}</h4>
+              {{ problem.input|markdown|safe }}
+            </section>
+            <section class="col-xl">
+              <h4>{% field_name problem 'output' %}</h4>
+              {{ problem.output|markdown|safe }}
+            </section>
+          </div>
+          <section>
+            <h4>{% model_name problem.example_set problem.example_set.all|length %}</h4>
+            {% for example in problem.example_set.all %}
+              <div class="row">
+                <div class="col-sm">
+                  <h5>
+                    {% field_name example 'input' %}
+                    <button type="button" class="btn btn-outline-primary btn-sm float-right" data-clipboard-target="#example-{{ forloop.counter }}-input">
+                      {% trans 'Copy to clipboard' %}
+                    </button>
+                  </h5>
+                  <samp id="example-{{ forloop.counter }}-input">{{ example.input|linebreaks }}</samp>
+                </div>
+                <div class="col-sm">
+                  <h5>
+                    {% field_name example 'output' %}
+                    <button type="button" class="btn btn-outline-primary btn-sm float-right" data-clipboard-target="#example-{{ forloop.counter }}-output">
+                      {% trans 'Copy to clipboard' %}
+                    </button>
+                  </h5>
+                  <samp id="example-{{ forloop.counter }}-output">{{ example.output|linebreaks }}</samp>
+                </div>
+              </div>
+            {% endfor %}
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

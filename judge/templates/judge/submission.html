@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+
+{% load static i18n verbose_name %}
+
+{% block title %}{% model_name submission %} {{ submission.pk }} - PiOJ{% endblock %}
+
+{% block head %}
+  <!-- https://developers.google.com/search/reference/robots_meta_tag
+       https://developers.google.cn/search/reference/robots_meta_tag
+       https://ziyuan.baidu.com/college/articleinfo?id=1516 -->
+  <meta name="robots" content="noindex" />
+
+  <style>
+  body > div.container {
+    padding-top: 56px;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h3 class="mt-5 text-center">{% model_name submission %} {{ submission.pk }}</h3>
+        <div class="container">
+          <div id="app" class="row">
+            <div class="col-lg-4 order-lg-2">
+              <table class="table">
+                <tbody>
+                  <tr v-if="score >= 0">
+                    <th scope="row">{% field_name submission 'score' %}</th>
+                    {% verbatim %}<td>{{ score }}</td>{% endverbatim %}
+                  </tr>
+                  <tr>
+                    <th scope="row">{% field_name submission 'time' %}</th>
+                    <td>{{ submission.time }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">{% field_name submission 'problem' %}</th>
+                    <td><a href="{% url 'problem' submission.problem.pk %}">{{ submission.problem }}</a></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">{% field_name submission 'user' %}</th>
+                    <td>{{ submission.user }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">{% field_name submission 'processor' %}</th>
+                    {% verbatim %}<td>{{ processor.processor }}</td>{% endverbatim %}
+                  </tr>
+                  <tr>
+                    <th scope="row">{% trans 'Version' %}</th>
+                    {% verbatim %}<td>{{ processor.version }}</td>{% endverbatim %}
+                  </tr>
+                  <tr v-if="processor.language">
+                    <th scope="row">{% trans 'Language' %}</th>
+                    {% verbatim %}<td>{{ processor.language }}</td>{% endverbatim %}
+                  </tr>
+                  <tr v-if="processor.options">
+                    <th scope="row">{% trans 'Options' %}</th>
+                    {% verbatim %}<td>{{ processor.options }}</td>{% endverbatim %}
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col-lg-8 order-lg-1">
+              <h4 v-if="error">{% field_name submission 'error' %}</h4>
+              {% verbatim %}
+                <pre>{{ error }}</pre>
+                <div class="row">
+                  <div class="card text-center" v-for="(test_point, index) in test_points" :class="(CLASS[test_point.status] || {card: 'border-dark'}).card" >
+                    <div class="card-header" style="padding: 0.4rem 1.4rem 0.1rem;">{{ index + 1 }}</div>
+                    <div class="card-body" :class="(CLASS[test_point.status] || {'card-body': 'text-dark'})['card-body']" style="padding: 0.4rem 1.4rem .6rem;">
+                      <h5 class="card-title" style="margin-bottom: 0;">{{ test_point.status || '…' }}</h5>
+                      <p class="card-text" style="margin-bottom: 0;">
+                        {{ test_point.duration.toFixed(3) }} s
+                      </p>
+                      <a tabindex="0" role="button" class="btn btn-sm" data-toggle="popover" data-trigger="focus" data-placement="bottom" title="stdout" :data-content="test_point.stdout">out</a><a tabindex="0" role="button" class="btn btn-sm" data-toggle="popover" data-trigger="focus" data-placement="bottom" title="stderr" :data-content="test_point.stderr">err</a>
+                    </div>
+                  </div>
+                </div>
+              {% endverbatim %}
+              <br>
+              <h4>{% field_name submission 'source' %}</h4>
+              <pre>{{ submission.source }}</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block script %}
+  <script src="{% static 'node_modules/vue/dist/vue.js' %}" crossorigin="anonymous"></script>
+  <script src="{% static 'node_modules/axios/dist/axios.min.js' %}" crossorigin="anonymous"></script>
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: {
+        CLASS: {
+          '': {
+            card: 'border-light'
+          },
+          AC: {
+            card: 'border-success',
+            'card-body': 'text-success'
+          },
+          WA: {
+            card: 'border-danger',
+            'card-body': 'text-danger'
+          },
+          CE: {
+            card: 'border-secondary',
+            'card-body': 'text-secondary'
+          },
+          RE: {
+            card: 'border-warning',
+            'card-body': 'text-warning'
+          },
+          TLE: {
+            card: 'border-info',
+            'card-body': 'text-info'
+          },
+          ONF: {
+            card: 'border-primary',
+            'card-body': 'text-primary'
+          }
+        },
+        processor: JSON.parse('{{ submission.processor|escapejs }}'),
+        score: -1,
+        error: '',
+        test_points: []
+      },
+      mounted () {
+        (function fetch() {
+          axios
+            .get("{% url 'submission.json' submission.pk %}")
+            .then(response => {
+              app.score = response.data.score;
+              app.error = response.data.error;
+              for (var i in response.data.test_points) {
+                if (response.data.test_points[i].status == 'AC') {
+                  response.data.test_points[i].class = 'text-success border-success';
+                } else if (response.data.test_points[i].status == 'WA') {
+                  response.data.test_points[i].class = 'text-danger border-danger';
+                }
+              }
+              $(function () {
+                $('[data-toggle="popover"]').popover({
+                  template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><pre class="popover-body"></pre></div>'
+                })
+              })
+              app.test_points = response.data.test_points;
+              for (var i in response.data.test_points) {
+                if (!response.data.test_points[i].status) {
+                  setTimeout(fetch, 100);
+                  break;
+                }
+              }
+            })
+            .catch(error => console.log(error));
+        })();
+      }
+    });
+  </script>
+{% endblock %}

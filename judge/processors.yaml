@@ -1,0 +1,87 @@
+Bash:
+  _language: shell
+  version:
+    - latest
+Clang:
+  language:
+    C: c
+    C++: cpp
+  version:
+    - "10"
+    - "11"
+  options:
+    - -O0
+    - -O1
+    - -O2
+    - -O3
+    - -Ofast
+    - -Os
+    - -Oz
+    - -Og
+    - -O
+GCC:
+  language:
+    C: c
+    C++: cpp
+    Go: go
+  version:
+    - "4.8"
+    - "4.9"
+    - "4"
+    - "10"
+    - latest
+  options:
+    - -O
+    - -O1
+    - -O2
+    - -O3
+    - -O0
+    - -Os
+    - -Ofast
+    - -Og
+Go:
+  _language: go
+  version:
+    - "1.13"
+    - "1"
+    - latest
+Mono:
+  language:
+    C#: csharp
+    Visual Basic: vb
+  version:
+    - latest
+Node:
+  _language: javascript
+  version:
+    - "12"
+OpenJDK:
+  _language: java
+  version:
+    - "11"
+    - latest
+PHP:
+  _language: php
+  version:
+    - latest
+PyPy:
+  _language: python
+  version:
+    - "2"
+    - "3"
+    - latest
+Python:
+  _language: python
+  version:
+    - "2.7"
+    - "2"
+    - "3.5"
+    - "3.6"
+    - "3.7"
+    - "3.8"
+    - "3"
+    - latest
+Ruby:
+  _language: ruby
+  version:
+    - latest

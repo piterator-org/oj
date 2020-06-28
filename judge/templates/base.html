@@ -1,0 +1,187 @@
+{% load static i18n %}
+<!doctype html>
+<html lang="{{ LANGUAGE_CODE }}">
+
+<head>
+
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <script src="{% static 'node_modules/pace-progress/pace.min.js' %}" crossorigin="anonymous"></script>
+  <link href="{% static 'node_modules/pace-progress/themes/blue/pace-theme-flash.css' %}" rel="stylesheet" crossorigin="anonymous" />
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="{% static 'node_modules/bootstrap/dist/css/bootstrap.min.css' %}" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="{% static 'node_modules/@fortawesome/fontawesome-free/css/all.css' %}" crossorigin="anonymous">
+
+  <title>{% block title %}Piterator{% endblock %}</title>
+
+  <!-- <style>
+    body > :nth-child(2) {
+      padding: 56px 0 100px;
+    }
+  </style> -->
+
+  <style>
+    ol .list-group-item {
+      display: list-item;
+    }
+  </style>
+
+  <style>
+    img.emoji {
+      height: 1em;
+    }
+  </style>
+
+  {% block head %}{% endblock %}
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-132660219-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-132660219-1');
+  </script>
+
+  <script src="{% static 'node_modules/twemoji/dist/twemoji.min.js' %}" integrity="sha384-PEQg4NJbyXT+TJJVKYN9zmD5ehVaV3TiBdzovT7WkshNClGNg8+bk4hKQ+lGrgaw" crossorigin="anonymous" defer onload="twemoji.parse(document.body, {folder: 'svg', ext: '.svg'});"></script>
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="">
+        <img src="{% static 'logo.min.svg' %}" width="30" height="30" class="align-top" alt="Logo">&ensp;Piterator
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="">{% trans 'Home' %}</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">{% trans 'Blog' %}<span class="sr-only"> (comming soon)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="" data-startswith>{% trans 'Online Judge' %}</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://upload.piterator.com/">File Bed</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDemo" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{% trans 'Demos' %}</a>
+            <div class="dropdown-menu" aria-labelledby="navbarDemo">
+              <a class="dropdown-item" href="">Media Player (Plyr)</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="">LaTeX (MathJax)</a>
+              <a class="dropdown-item" href="">LaTeX (KaTeX)</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="">Rich Text Editor (TinyMCE)</a>
+              <a class="dropdown-item" href="">Rich Text Editor (CKEditor 4)</a>
+              <a class="dropdown-item" href="">Rich Text Editor (CKEditor 5)</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="">Source Code Editor (Monaco Editor)</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarLinks" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{% trans 'Links' %}</a>
+            <div class="dropdown-menu" aria-labelledby="navbarLinks">
+              <a class="dropdown-item" href="https://oier.fun/">Oier2048</a>
+              <a class="dropdown-item" href="https://nazo.oier.fun/">OierNazo</a>
+              <a class="dropdown-item" href="https://logo.oier.fun/">OierLogo</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="http://icelava.top/">IceLava</a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="http://beian.miit.gov.cn/">沪ICP备19004872号-2</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav">
+          <!-- <li class="nav-item">
+            <form class="form-inline my-2 my-lg-0">
+              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" disabled>
+              <button class="btn btn-outline-success my-2 my-sm-0" type="submit" disabled>Search</button>
+            </form>
+          </li> -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="" id="navbarAccount" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-startswith>
+              <i class="d-none d-lg-inline-block far fa-user"></i>
+              <span class="d-inline-block d-lg-none">{% trans 'Account' %}</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-lg-right" aria-labelledby="navbarAccount">
+              {% if user.is_authenticated %}
+                <a class="dropdown-item disabled" href="#" tabindex="-1" aria-disabled="true">{{ user.username }}</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="" data-startswith>{% trans 'Sign out' %}</a>
+                <a class="dropdown-item" href="" data-startswith>{% trans 'Switch' %}</a>
+              {% else %}
+                <a class="dropdown-item" href="?next=//{{ request.get_host|urlencode }}{{ request.get_full_path|urlencode }}" data-startswith>{% trans 'Sign in' %}</a>
+              {% endif %}
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Content -->
+  {% block content %}
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h1 class="mt-5">A Bootstrap 4 Starter Template</h1>
+          <p class="lead">Complete with pre-defined file paths and responsive navigation!</p>
+          <ul class="list-unstyled">
+            <li>Bootstrap 4.3.1</li>
+            <li>jQuery 3.3.1</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  {% endblock %}
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <!-- <script src="{% static 'node_modules/jquery/dist/jquery.slim.min.js' %}" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script> -->
+  <script src="{% static 'node_modules/jquery/dist/jquery.min.js' %}" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script src="{% static 'node_modules/popper.js/dist/umd/popper.min.js' %}" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="{% static 'node_modules/bootstrap/dist/js/bootstrap.min.js' %}" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  <!-- <script src="{% static 'node_modules/vue/dist/vue.js' %}" crossorigin="anonymous"></script> -->
+
+  <script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function() {
+      'use strict';
+      window.addEventListener('load', function() {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function(form) {
+          form.addEventListener('submit', function(event) {
+            if (form.checkValidity() === false) {
+              event.preventDefault();
+              event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+          }, false);
+        });
+      }, false);
+    })();
+  </script>
+
+  {% block script %}{% endblock %}
+
+</body>
+
+</html>

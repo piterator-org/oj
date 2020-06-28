@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Piterator Online Judge{% endblock %}
+
+{% block head %}
+  <style>
+    body > div.container {
+      padding-top: 56px;
+    }
+  </style>
+
+  <link rel="prefetch" href="{% static 'node_modules/clipboard/dist/clipboard.min.js' %}" crossorigin="anonymous">
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h2 class="mt-5 text-center">Piterator Online Judge</h2>
+        <div class="container">
+          <ol class="list-group list-group-flush">
+            {% for problem in problems %}
+              <a href="{% url 'problem' problem.pk %}" value="{{ problem.pk }}" class="list-group-item list-group-item-action">{{ problem.title }}</a>
+            {% endfor %}
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
