@@ -117,11 +117,19 @@
         });
       });
 
-      const last_processor = JSON.parse('{{ last_submission.processor|escapejs }}');
-      form.processor = last_processor.processor;
-      form.language = last_processor.language;
-      form.version = last_processor.version;
-      form.option = last_processor.options;
+      const last_processor = JSON.parse('{{ last_submission.processor|escapejs }}' || '{}');
+      if (last_processor.processor) {
+        form.processor = last_processor.processor;
+      }
+      if (last_processor.language) {
+        form.language = last_processor.language;
+      }
+      if (last_processor.version) {
+        form.version = last_processor.version;
+      }
+      if (last_processor.options) {
+        form.option = last_processor.options;
+      }
     });
   </script>
   <script>
@@ -139,15 +147,16 @@
       },
       watch: {
         processor(processor) {
-          form.languages = form.processors[processor].language;
-          form.versions = form.processors[processor].version;
-          form.options = form.processors[processor].options;
+          form.languages = form.processors[processor].language || null;
+          form.versions = form.processors[processor].version || null;
+          form.options = form.processors[processor].options || null;
+          
         },
         languages(languages) {
-          form.language = languages && form.language in languages ? form.language : form.processors[form.processor]._language || ""
+          form.language = languages && form.language in languages ? form.language : form.processors[form.processor]._language || "";
         },
         versions(versions) {
-          form.version = versions.includes(form.version) ? form.version : "";
+          form.version = versions && versions.includes(form.version) ? form.version : "";
         },
         options(options) {
           form.option = options && options.includes(form.option) ? form.option : "";

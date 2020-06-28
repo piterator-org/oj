@@ -63,7 +63,8 @@ def submit(request, problem_id):
         'pioj/submit.html',
         {
             'problem': problem,
-            'last_submission': Submission.objects.filter(user=request.user).last(),
+            'last_submission': Submission.objects.filter(problem=problem,
+                                                         user=request.user).last(),
             'processors': load_yaml('processors.yaml')
         }
     )
