@@ -6,9 +6,11 @@ from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 
 from django.conf import settings
 
+from django.contrib.auth.models import User
 from .models import Problem, Submission, TestPoint
 
 
@@ -19,12 +21,35 @@ def load_yaml(filename):
     )
 
 
-def index(request):
+def problem_index(request):
     if 'kw' in request.GET and request.GET['kw'].startswith('#'):
         return HttpResponseRedirect(reverse('problem', args=(request.GET['kw'].lstrip('#'),)))
-    return render(request, 'pioj/index.html',
-                  {'problems': Problem.objects.filter(title__icontains=request.GET['kw'])
-                               if 'kw' in request.GET else Problem.objects.all()})
+    return render(
+        request, 'pioj/index.html',
+        {
+            'problems': Paginator(
+                Problem.objects.filter(title__icontains=request.GET['kw'])
+                if 'kw' in request.GET else Problem.objects.all(),
+                25
+            ).get_page(request.GET.get('page'))
+        }
+    )
+
+
+def submission_index(request):
+    submissions = Submission.objects.order_by('-time')
+    if 'problem' in request.GET:
+        submissions = submissions.filter(
+            problem=get_object_or_404(Problem, pk=request.GET['problem'])
+        )
+    if 'user' in request.GET:
+        submissions = submissions.filter(
+            user=get_object_or_404(User, username=request.GET['user'])
+        )
+    return render(
+        request, 'pioj/submissions.html',
+        {'submissions': Paginator(submissions, 25).get_page(request.GET.get('page'))}
+    )
 
 
 def robots_txt(request):

@@ -21,6 +21,8 @@
       max-height: 276px;
     }
   </style>
+
+  <link rel="prefetch" href="{% url 'submission.json' submission.pk %}" crossorigin="anonymous">
 {% endblock %}
 
 {% block content %}

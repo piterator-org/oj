@@ -1,0 +1,76 @@
+{% extends 'pioj/base.html' %}
+
+{% load static i18n cache verbose_name languages %}
+
+{% block title %}{% trans 'Submissions' %} - PiOJ{% endblock %}
+
+{% block head %}
+  <!-- https://developers.google.com/search/reference/robots_meta_tag
+       https://developers.google.cn/search/reference/robots_meta_tag
+       https://ziyuan.baidu.com/college/articleinfo?id=1516 -->
+  <meta name="robots" content="noindex" />
+
+  <style>
+    body > div.container {
+      padding-top: 56px;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h2 class="mt-5 mb-5 text-center">{% trans 'Submissions' %}</h2>
+        <!-- <form class="form-group">
+          <div class="input-group input-group-lg mb-3">
+            <input type="search" name="kw" value="{{ request.GET.kw }}" autocomplete="off" autofocus class="form-control" placeholder="{% trans 'Keyword' %}" aria-label="{% trans 'Keyword' %}" aria-describedby="search-botton">
+            <div class="input-group-append">
+              <button class="btn btn-outline-primary" type="submit" id="search-botton">{% trans 'Search' %}</button>
+            </div>
+          </div>
+        </form> -->
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-center">
+            <li class="page-item {% if not submissions.has_previous %} disabled {% endif %}">
+              <a class="page-link" {% if submissions.has_previous %} href="?page={{ submissions.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" {% endif %} aria-label="Previous">
+                <span aria-hidden="true">&laquo; Prev</span>
+              </a>
+            </li>
+            {% for page in submissions.paginator.page_range %}
+              <li class="page-item {% if page == submissions.number %}active{% endif %}"><a class="page-link" href="?page={{ page }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">{{ page }}</a></li>
+            {% endfor %}
+            <li class="page-item {% if not submissions.has_next %} disabled {% endif %}">
+              <a class="page-link" {% if submissions.has_next %} href="?page={{ submissions.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" {% endif %} aria-label="Next">
+                <span aria-hidden="true">Next &raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <div class="container">
+          <div class="list-group list-group-flush">
+            {% for submission in submissions %}
+              <a href="{% url 'submission' submission.pk %}" class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between align-items-center">
+                  <h5 class="mb-0">{% model_name submission %} {{ submission.pk }}</h5>
+                  <div>
+                    <small title="{{ submission.time|date:'r' }}">{{ submission.time|timesince }}</small>
+                    {% cache None processor submission.processor %}
+                      {% get_language_by_json submission.processor as LANG %}
+                      {% if LANG %}
+                      <span class="badge badge-primary badge-pill">{{ LANG }}</span>
+                      {% endif %}
+                    {% endcache %}
+                    <span class="badge badge-{% if submission.score >= 100 %}success{% elif submission.score > 0 %}warning{% elif submission.score == 0 %}danger{% else %}info{% endif %} badge-pill">{{ submission.score|floatformat }}</span>
+                  </div>
+                </div>
+                <p class="mb-0">{% model_name submission.problem %} {{ submission.problem.pk }} - {{ submission.problem.title }}</p>
+                <small>{{ submission.user }}</small>
+              </a>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

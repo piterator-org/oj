@@ -1,8 +1,8 @@
 {% extends 'pioj/base.html' %}
 
-{% load static i18n %}
+{% load static i18n verbose_name %}
 
-{% block title %}Piterator Online Judge{% endblock %}
+{% block title %}{% trans 'Problems' %} - PiOJ{% endblock %}
 
 {% block head %}
   <style>
@@ -28,12 +28,35 @@
             </div>
           </div>
         </form>
-        <div class="container">
-          <ol class="list-group list-group-flush">
-            {% for problem in problems %}
-              <a href="{% url 'problem' problem.pk %}" value="{{ problem.pk }}" class="list-group-item list-group-item-action">{{ problem.title }}</a>
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-center">
+            <li class="page-item {% if not problems.has_previous %} disabled {% endif %}">
+              <a class="page-link" {% if problems.has_previous %} href="?page={{ problems.previous_page_number }}" {% endif %} aria-label="Previous">
+                <span aria-hidden="true">&laquo; Prev</span>
+              </a>
+            </li>
+            {% for page in problems.paginator.page_range %}
+              <li class="page-item {% if page == problems.number %}active{% endif %}"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
             {% endfor %}
-          </ol>
+            <li class="page-item {% if not problems.has_next %} disabled {% endif %}">
+              <a class="page-link" {% if problems.has_next %} href="?page={{ problems.next_page_number }}" {% endif %} aria-label="Next">
+                <span aria-hidden="true">Next &raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <div class="container">
+          <div class="list-group list-group-flush">
+            {% for problem in problems %}
+              <a href="{% url 'problem' problem.pk %}" class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">{% model_name problem %} {{ problem.pk }}</h5>
+                  <small title="{% field_name problem 'time_limit' %}">{{ problem.time_limit }}</small>
+                </div>
+                <h6 class="mb-0">{{ problem.title }}</h6>
+              </a>
+            {% endfor %}
+          </div>
         </div>
       </div>
     </div>
