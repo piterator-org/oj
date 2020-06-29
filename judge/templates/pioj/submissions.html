@@ -21,7 +21,9 @@
   <div class="container">
     <div class="row">
       <div class="col">
-        <h2 class="mt-5 mb-5 text-center">{% trans 'Submissions' %}</h2>
+        <h2 class="mt-5 text-center">{% trans 'Submissions' %}</h2>
+        {% if 'user' in request.GET %}<h5 class="text-center">{% trans 'user' %} {{ request.GET.user }}</h5>{% endif %}
+        {% if 'problem' in request.GET %}<h5 class="text-center">{% trans 'problem' %} {{ request.GET.problem }}</h5>{% endif %}
         <!-- <form class="form-group">
           <div class="input-group input-group-lg mb-3">
             <input type="search" name="kw" value="{{ request.GET.kw }}" autocomplete="off" autofocus class="form-control" placeholder="{% trans 'Keyword' %}" aria-label="{% trans 'Keyword' %}" aria-describedby="search-botton">
@@ -30,7 +32,7 @@
             </div>
           </div>
         </form> -->
-        <nav aria-label="Page navigation example">
+        <nav class="mt-4" aria-label="Page navigation example">
           <ul class="pagination justify-content-center">
             <li class="page-item {% if not submissions.has_previous %} disabled {% endif %}">
               <a class="page-link" {% if submissions.has_previous %} href="?page={{ submissions.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" {% endif %} aria-label="Previous">
