@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-28 15:02+0800\n"
+"POT-Creation-Date: 2020-06-29 11:18+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -166,15 +166,19 @@ msgstr "提交"
 msgid "Copy to clipboard"
 msgstr "复制到剪贴板"
 
-#: judge/templates/pioj/submission.html:51 judge/templates/pioj/submit.html:53
+#: judge/templates/pioj/submission.html:32
+msgid "Resubmit"
+msgstr "重新提交"
+
+#: judge/templates/pioj/submission.html:60 judge/templates/pioj/submit.html:53
 msgid "Version"
 msgstr "版本"
 
-#: judge/templates/pioj/submission.html:55 judge/templates/pioj/submit.html:62
+#: judge/templates/pioj/submission.html:64 judge/templates/pioj/submit.html:62
 msgid "Language"
 msgstr "语言"
 
-#: judge/templates/pioj/submission.html:59 judge/templates/pioj/submit.html:71
+#: judge/templates/pioj/submission.html:68 judge/templates/pioj/submit.html:71
 msgid "Options"
 msgstr "选项"
 

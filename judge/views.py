@@ -63,8 +63,13 @@ def submit(request, problem_id):
         'pioj/submit.html',
         {
             'problem': problem,
-            'last_submission': Submission.objects.filter(problem=problem,
-                                                         user=request.user).last(),
+            'last_submission': (
+                get_object_or_404(Submission,
+                                  pk=request.GET['last'], user=request.user)
+                if 'last' in request.GET
+                else Submission.objects.filter(
+                    problem=problem, user=request.user
+                ).last()),
             'processors': load_yaml('processors.yaml')
         }
     )

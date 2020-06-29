@@ -32,7 +32,7 @@
         <h3 class="mt-5 text-center d-flex">
           {% model_name problem %} {{ problem.pk }}
           <span class="ml-auto">{{ problem.title }}</span>
-          <a href="{% url 'problem' problem.pk %}" class="btn btn-primary ml-auto">{% trans 'Details' %}</a>
+          <a href="{% url 'problem' problem.pk %}" class="btn btn-outline-primary ml-auto">{% trans 'Details' %}</a>
         </h3>
         <section>
           <div class="container">

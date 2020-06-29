@@ -27,7 +27,10 @@
   <div class="container">
     <div class="row">
       <div class="col">
-        <h3 class="mt-5 text-center">{% model_name submission %} {{ submission.pk }}</h3>
+        <h3 class="mt-5 text-center d-flex">
+          <span class="ml-auto">{% model_name submission %} {{ submission.pk }}</span>
+          <a href="{% url 'submit' submission.problem.pk %}?last={{ submission.pk }}" class="btn btn-outline-primary ml-auto">{% trans 'Resubmit' %}</a>
+        </h3>
         <div class="container">
           <div id="app" class="row">
             <div class="col-lg-4 order-lg-2">
