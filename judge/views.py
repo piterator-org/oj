@@ -23,7 +23,8 @@ def index(request):
     if 'kw' in request.GET and request.GET['kw'].startswith('#'):
         return HttpResponseRedirect(reverse('problem', args=(request.GET['kw'].lstrip('#'),)))
     return render(request, 'pioj/index.html',
-                  {'problems': Problem.objects.filter(title__icontains=request.GET['kw']) if 'kw' in request.GET else Problem.objects.all()})
+                  {'problems': Problem.objects.filter(title__icontains=request.GET['kw'])
+                               if 'kw' in request.GET else Problem.objects.all()})
 
 
 def robots_txt(request):
