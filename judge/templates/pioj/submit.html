@@ -80,7 +80,7 @@
                   <button type="submit" class="btn btn-primary">{% trans 'Submit' %}</button>
                 </div>
               </div>
-              <input type="hidden" name="source" value="{{ request.POST.source }}" />
+              <input type="hidden" name="source" value="{{ last_submission.source }}" />
               {% csrf_token %}
             </form>
             <div id="container" style="width: 100%; height: 32em;"></div>
