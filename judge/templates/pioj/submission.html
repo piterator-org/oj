@@ -48,7 +48,7 @@
                   </tr>
                   <tr>
                     <th scope="row">{% field_name submission 'problem' %}</th>
-                    <td><a href="{% url 'problem' submission.problem.pk %}">{{ submission.problem }}</a></td>
+                    <td><a href="{% url 'problem' submission.problem.pk %}">{% model_name submission.problem %} {{ submission.problem.pk }} - {{ submission.problem.title }}</a></td>
                   </tr>
                   <tr>
                     <th scope="row">{% field_name submission 'user' %}</th>
