@@ -32,6 +32,8 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'judge.apps.JudgeConfig',
+    'accounts.apps.AccountsConfig',
+    'captcha.apps.CaptchaConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -119,3 +121,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+# Django reCAPTCHA
+# https://github.com/praekelt/django-recaptcha
+# https://pypi.org/project/django-recaptcha/
+
+RECAPTCHA_PUBLIC_KEY = '6Le9ho8UAAAAALsH7mzNlrXDXpiK2sQMybyH2zkx'
+RECAPTCHA_PRIVATE_KEY = '6Le9ho8UAAAAACz2NqFfWos0-XVJIxAgO08gg78b'
+
+RECAPTCHA_DOMAIN = 'www.recaptcha.net'

@@ -88,7 +88,7 @@
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{% url 'submissions' %}?user={{ request.user.username }}" data-startswith>{% trans 'Submissions' %}</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="" data-startswith>{% trans 'Sign out' %}</a>
+                <a class="dropdown-item" href="" data-startswith>{% trans 'Log out' %}</a>
                 <a class="dropdown-item" href="" data-startswith>{% trans 'Switch' %}</a>
               {% else %}
                 <a class="dropdown-item" href="?next=//{{ request.get_host|urlencode }}{{ request.get_full_path|urlencode }}" data-startswith>{% trans 'Sign in' %}</a>

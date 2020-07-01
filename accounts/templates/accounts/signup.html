@@ -1,0 +1,73 @@
+{% extends 'pioj/base.html' %}
+
+{% load i18n %}
+
+{% block head %}
+  <style>
+    body > div.container {
+      padding-top: 56px;
+    }
+
+    #id_captcha > div {
+      max-width: 100%;
+    }
+
+    #id_captcha > div > div > iframe {
+      max-width: 100%;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-11 col-sm-9 col-md-7 col-lg-5 mx-auto">
+        <div class="card card-signin my-4">
+          <div class="card-body">
+            <h5 class="card-title text-center">{% trans 'Sign up' %}</h5>
+            <form class="needs-validation" method="POST" novalidate>
+              {% if form.non_field_errors %}
+                <ul class="alert alert-danger">
+                  {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+              <div class="form-group">
+                {{ form.username.label_tag }}
+                {{ form.username }}
+                {{ form.username.errors }}
+                <div class="invalid-feedback">
+                  {% trans 'Please enter your username.' %}
+                </div>
+              </div>
+              <div class="form-group">
+                {{ form.password1.label_tag }}
+                {{ form.password1 }}
+                {{ form.password1.errors }}
+                <div class="invalid-feedback">
+                  {% trans 'Please enter your password.' %}
+                </div>
+              </div>
+              <div class="form-group">
+                {{ form.password2.label_tag }}
+                {{ form.password2 }}
+                {{ form.password2.errors }}
+                <div class="invalid-feedback">
+                  {% trans 'Please confirm your password.' %}
+                </div>
+              </div>
+              <div class="form-group">
+                {{ form.captcha.label_tag }}
+                {{ form.captcha }}
+                {{ form.captcha.errors }}
+              </div>
+              <button type="submit" class="btn btn-primary btn-block">{% trans 'Sign up' %}</button>
+              {% csrf_token %}
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
