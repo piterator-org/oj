@@ -122,7 +122,7 @@ class Submission(models.Model):
                     'limit': {
                         'time': self.problem.time_limit.total_seconds()
                     },
-                    'iofilaname': {
+                    'iofilename': {
                         'in': self.problem.input_file,
                         'out': self.problem.output_file
                     },
